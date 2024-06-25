@@ -22,9 +22,8 @@ import site.lawmate.lawyer.service.impl.LawyerServiceImpl;
 @ApiResponses(value = {
         @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
         @ApiResponse(responseCode = "404", description = "Customer not found")})
-@RequestMapping(path = "/api/lawyers")
+@RequestMapping(path = "/lawyers")
 public class LawyerController {
-
 
     private final LawyerServiceImpl lawyerService;
 
@@ -48,42 +47,42 @@ public class LawyerController {
         return lawyerService.getLawyersCount();
     }
 
-    @GetMapping("/list")
+    @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
     public Flux<LawyerModel> getAllLawyers() {
         return lawyerService.getAllLawyers();
     }
 
-    @GetMapping("/findId")
+    @GetMapping("/{email}")
     @ResponseStatus(HttpStatus.OK)
-    public Mono<LawyerModel> getLawyerUsernameByEmail(@RequestParam String email) {
+    public Mono<LawyerModel> getLawyerUsernameByEmail(@PathVariable("email") String email) {
         return lawyerService.getLawyerUsernameByEmail(email);
     }
 
-    @GetMapping("/myPage/{id}")
+    @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Mono<LawyerModel> getLawyerById(@PathVariable("id") String id) {
         return lawyerService.getLawyerById(id);
     }
 
-    @GetMapping("/myDetailPage/{id}")
+    @GetMapping("/detail/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Mono<LawyerDetailModel> getLawyerDetailById(@PathVariable("id") String id) {
         return lawyerService.getLawyerDetailById(id);
     }
 
-    @PostMapping("/register")
+    @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<Messenger> saveLawyer(@RequestBody LawyerModel lawyer) {
         return lawyerService.addLawyer(lawyer);
     }
 
-    @PostMapping("/addDetail/{id}")
+    @PostMapping("/saveDetail/{id}")
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<LawyerModel> saveLawyerDetail(@PathVariable("id") String lawyerId, @RequestBody LawyerDetailModel lawyer) {
         return lawyerService.addLawyerDetailToLawyer(lawyerId, lawyer);
     }
-    @PatchMapping("/update/{id}")
+    @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Mono<LawyerModel> updateLawyer(@PathVariable("id") String id, @RequestBody LawyerModel lawyer) {
         return lawyerService.updateLawyer(id, lawyer);
@@ -95,13 +94,13 @@ public class LawyerController {
         return lawyerService.updateLawyerDetail(id, lawyer);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> deleteLawyer(@PathVariable("id") String id) {
         return lawyerService.deleteLawyer(id);
     }
 
-    @DeleteMapping("/allDelete")
+    @DeleteMapping("/deleteAll")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> deleteAllLawyers() {
         return lawyerService.deleteAllLawyers();

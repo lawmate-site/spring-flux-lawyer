@@ -18,7 +18,7 @@ import site.lawmate.lawyer.service.impl.NoticeServiceImpl;
 @ApiResponses(value = {
         @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
         @ApiResponse(responseCode = "404", description = "Customer not found")})
-@RequestMapping(path = "/api/notifications")
+@RequestMapping(path = "/notifications")
 public class NoticeController {
     private final NoticeServiceImpl service;
 
@@ -27,7 +27,7 @@ public class NoticeController {
         return service.createNoticeModel(notification);
     }
 
-    @PostMapping("/{id}/respond")
+    @PostMapping("/respond/{id}")
     public Mono<NoticeModel> respondToNoticeModel(@PathVariable("id") String id, @RequestParam("status") String status) {
         return service.updateNoticeModelStatus(id, status);
     }

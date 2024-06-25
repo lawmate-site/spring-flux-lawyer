@@ -18,29 +18,29 @@ import site.lawmate.lawyer.service.impl.PostServiceImpl;
 @ApiResponses(value = {
         @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
         @ApiResponse(responseCode = "404", description = "Customer not found")})
-@RequestMapping(path = "/api/posts")
+@RequestMapping(path = "/posts")
 public class PostController {
     private final PostServiceImpl service;
     
 
-    @PostMapping("/add/{lawyerId}")
+    @PostMapping("/save/{lawyerId}")
     @ResponseStatus(HttpStatus.OK)
     public Mono<PostModel> createPost(@PathVariable("lawyerId") String lawyerId, @RequestBody PostModel post) {
         return service.createPost(lawyerId, post);
     }
-    @GetMapping("/myPost/{lawyerId}")
+    @GetMapping("/{lawyerId}")
     @ResponseStatus(HttpStatus.OK)
     public Flux<PostModel> getPostsByLawyerId(@PathVariable("lawyerId") String lawyerId) {
         return service.getPostsByLawyerId(lawyerId);
     }
 
-    @PatchMapping("/update/{id}")
+    @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Mono<PostModel> updatePost(@PathVariable("id") String id, @RequestBody PostModel post) {
         return service.updatePost(id, post);
     }
 
-    @GetMapping("/list")
+    @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
     public Flux<PostModel> getAllPosts() {
         return service.getAllPosts();

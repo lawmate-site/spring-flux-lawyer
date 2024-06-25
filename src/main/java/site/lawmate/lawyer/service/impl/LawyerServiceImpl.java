@@ -3,6 +3,7 @@ package site.lawmate.lawyer.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import site.lawmate.lawyer.component.Messenger;
@@ -17,7 +18,6 @@ import site.lawmate.lawyer.service.LawyerService;
 @Slf4j
 @RequiredArgsConstructor
 public class LawyerServiceImpl implements LawyerService {
-
 
     private final LawyerRepository lawyerRepository;
     private final LawyerDetailRepository lawyerDetailRepository;

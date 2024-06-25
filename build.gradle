@@ -25,9 +25,8 @@ jar {
 }
 
 dependencies {
-
-	compileOnly project(':spring-mvc-user')
-
+//	implementation (':user-service') {
+//		transitive = false}
 	// Spring Boot
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.springframework.boot:spring-boot-devtools'

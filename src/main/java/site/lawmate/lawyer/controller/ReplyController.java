@@ -18,34 +18,34 @@ import site.lawmate.lawyer.service.impl.ReplyServiceImpl;
 @ApiResponses(value = {
         @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
         @ApiResponse(responseCode = "404", description = "Customer not found")})
-@RequestMapping(path = "/api/replies")
+@RequestMapping(path = "/replies")
 public class ReplyController {
     private final ReplyServiceImpl service;
 
-    @PostMapping("/add/{lawyerId}")
+    @PostMapping("/save/{lawyerId}")
     @ResponseStatus(HttpStatus.OK)
     public Mono<ReplyModel> createReply(@PathVariable("lawyerId") String lawyerId, @RequestBody ReplyModel reply) {
         return service.createReply(lawyerId, reply);
     }
 
-    @GetMapping("/myReply/{lawyerId}")
+    @GetMapping("/{lawyerId}")
     @ResponseStatus(HttpStatus.OK)
     public Flux<ReplyModel> getRepliesByLawyerId(@PathVariable("lawyerId") String lawyerId) {
         return service.getRepliesByLawyerId(lawyerId);
     }
-    @PatchMapping("/update/{id}")
+    @PatchMapping("/{id}")
     public Mono<ReplyModel> updateReply(@PathVariable("id") String id, @RequestBody ReplyModel reply) {
         return service.updateReply(id, reply);
     }
 
-    @GetMapping("/list")
+    @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
     public Flux<ReplyModel> getAllReplies() {
         return service.getAllReplies();
     }
 
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> deleteReply(@PathVariable("id") String id) {
         return service.deleteReply(id);

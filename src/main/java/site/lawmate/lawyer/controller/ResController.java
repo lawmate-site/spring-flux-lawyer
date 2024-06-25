@@ -18,7 +18,7 @@ import site.lawmate.lawyer.service.impl.ResServiceImpl;
 @ApiResponses(value = {
         @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
         @ApiResponse(responseCode = "404", description = "Customer not found")})
-@RequestMapping(path = "/api/reservation")
+@RequestMapping(path = "/reservation")
 public class ResController {
     private final ResServiceImpl service;
 
@@ -28,17 +28,17 @@ public class ResController {
 //        return service.getReservationsByDate(date);
 //    }
 
-    @PostMapping("/add")
+    @PostMapping("/save")
     public Mono<ResModel> createReservation(@RequestBody ResModel reservation) {
         return service.createReservation(reservation);
     }
 
-    @PatchMapping("/update/{id}")
+    @PatchMapping("/{id}")
     public Mono<ResModel> updateReservation(@PathVariable("id") String id, @RequestBody ResModel res) {
         return service.updateReservation(id, res);
     }
 
-    @GetMapping("/list")
+    @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
     public Flux<ResModel> getAllReservations() {
         return service.getAllReservations();
@@ -51,7 +51,7 @@ public class ResController {
 //    }
 
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> deleteReservation(@PathVariable("id") String id) {
         return service.deleteReservation(id);
