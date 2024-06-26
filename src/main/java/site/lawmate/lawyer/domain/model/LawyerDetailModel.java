@@ -18,6 +18,8 @@ public class LawyerDetailModel {
     String addressDetail;
     String belongPhone;
     String image;
+    String pdf;
+    String sign;
     String law;
     String visitCost;
     String phoneCost;

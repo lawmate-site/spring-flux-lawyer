@@ -48,7 +48,7 @@ public class PostController {
 
 
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> deletePost(@PathVariable("id") String id) {
         return service.deletePost(id);

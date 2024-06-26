@@ -22,7 +22,7 @@ import site.lawmate.lawyer.service.impl.NoticeServiceImpl;
 public class NoticeController {
     private final NoticeServiceImpl service;
 
-    @PostMapping("/subscribe")
+    @PostMapping("/save")
     public Mono<NoticeModel> createNoticeModel(@RequestBody NoticeModel notification) {
         return service.createNoticeModel(notification);
     }

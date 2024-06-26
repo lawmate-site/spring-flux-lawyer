@@ -70,12 +70,36 @@ public class LawyerServiceImpl implements LawyerService {
                                 lawyer.setDetail(savedDetail);
                                 return lawyerRepository.save(lawyer);
                             });
-//                .flatMap(lawyer -> {
-//                    lawyerDetail.setId(id);
-//                    return lawyerDetailRepository.save(lawyerDetail)
-//                            .thenReturn(lawyer);
-//                });
                 });}
+
+    public Mono<LawyerModel> uploadPdfToLawyer(String id, LawyerDetailModel detail) {
+        return lawyerRepository.findById(id)
+                .flatMap(lawyer -> {
+                    return lawyerDetailRepository.save(detail)
+                            .flatMap(savedDetail -> {
+                                if(detail.getPdf() != null)
+                                    savedDetail.setPdf(detail.getPdf());
+                                if (detail.getImage() != null)
+                                    savedDetail.setImage(detail.getImage());
+                                if (detail.getSign() != null)
+                                    savedDetail.setSign(detail.getSign());
+                                lawyer.setDetail(savedDetail);
+                                return lawyerRepository.save(lawyer);
+                            });
+                });
+    }
+
+    public Mono<LawyerModel> updatePdf(String id, LawyerDetailModel detail) {
+        return lawyerRepository.findById(id)
+                .flatMap(lawyer -> {
+                    return lawyerDetailRepository.save(detail)
+                            .flatMap(savedDetail -> {
+                                lawyer.setDetail(savedDetail);
+                                return lawyerRepository.save(lawyer);
+                            });
+                });
+    }
+
 
     public Mono<LawyerDetailModel> getLawyerDetailById(String id) {
         return lawyerRepository.findById(id)
@@ -91,9 +115,15 @@ public class LawyerServiceImpl implements LawyerService {
     public Mono<LawyerModel> updateLawyer(String id, LawyerModel lawyer) {
         return lawyerRepository.findById(id)
                 .flatMap(optionalLawyer -> {
-                    optionalLawyer.setPassword(lawyer.getPassword());
-                    optionalLawyer.setMid(lawyer.getMid());
-                    optionalLawyer.setPhone(lawyer.getPhone());
+                    if (lawyer.getPassword() != null) {
+                        optionalLawyer.setPassword(lawyer.getPassword());
+                    }
+                    if (lawyer.getMid() != null) {
+                        optionalLawyer.setMid(lawyer.getMid());
+                    }
+                    if (lawyer.getPhone() != null) {
+                        optionalLawyer.setPhone(lawyer.getPhone());
+                    }
                     return lawyerRepository.save(optionalLawyer);
                 })
                 .switchIfEmpty(Mono.empty());
@@ -121,8 +151,6 @@ public class LawyerServiceImpl implements LawyerService {
                             });
                 });
     }
-
-
 
     // 시큐리티 로그인
 

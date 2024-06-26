@@ -53,7 +53,7 @@ public class LawyerController {
         return lawyerService.getAllLawyers();
     }
 
-    @GetMapping("/{email}")
+    @GetMapping("/find/{email}")
     @ResponseStatus(HttpStatus.OK)
     public Mono<LawyerModel> getLawyerUsernameByEmail(@PathVariable("email") String email) {
         return lawyerService.getLawyerUsernameByEmail(email);
@@ -88,7 +88,7 @@ public class LawyerController {
         return lawyerService.updateLawyer(id, lawyer);
     }
 
-    @PatchMapping("/updateDetail/{id}")
+    @PatchMapping("/detail/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Mono<LawyerModel> updateLawyerDetail(@PathVariable("id") String id, @RequestBody LawyerDetailModel lawyer) {
         return lawyerService.updateLawyerDetail(id, lawyer);
@@ -100,11 +100,16 @@ public class LawyerController {
         return lawyerService.deleteLawyer(id);
     }
 
-    @DeleteMapping("/deleteAll")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public Mono<Void> deleteAllLawyers() {
-        return lawyerService.deleteAllLawyers();
+    @PostMapping("/{id}/upload")
+    public Mono<LawyerModel> uploadPdfToLawyer(@PathVariable String id, @RequestBody LawyerDetailModel updatedLawyer) {
+        return lawyerService.uploadPdfToLawyer(id, updatedLawyer);
     }
+
+    @PostMapping("/{id}/updatePdf")
+    public Mono<LawyerModel> updatePdf(@PathVariable String id, @RequestBody LawyerDetailModel updatedPdf) {
+        return lawyerService.updatePdf(id, updatedPdf);
+    }
+
 
 
 }
