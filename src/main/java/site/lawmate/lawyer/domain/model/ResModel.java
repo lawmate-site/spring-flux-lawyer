@@ -1,8 +1,12 @@
 package site.lawmate.lawyer.domain.model;
 
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.LocalDateTime;
 
 @Data
 @Document(collection = "reservations")
@@ -13,10 +17,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class ResModel {
     @Id
     String id;
-    String lawyerId;
-    String userId;
     String date;
     String startTime;
     String endTime;
     String status;
+    @CreatedDate
+    LocalDateTime createdDate;
+    @LastModifiedDate
+    LocalDateTime modifiedDate;
+
 }

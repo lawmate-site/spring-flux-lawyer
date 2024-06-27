@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -29,19 +30,18 @@ public class ResController {
 //    }
 
     @PostMapping("/save")
-    public Mono<ResModel> createReservation(@RequestBody ResModel reservation) {
-        return service.createReservation(reservation);
+    public ResponseEntity<Mono<ResModel>> createReservation(@RequestBody ResModel reservation) {
+        return ResponseEntity.ok(service.createReservation(reservation));
     }
 
     @PatchMapping("/{id}")
-    public Mono<ResModel> updateReservation(@PathVariable("id") String id, @RequestBody ResModel res) {
-        return service.updateReservation(id, res);
+    public ResponseEntity<Mono<ResModel>> updateReservation(@PathVariable("id") String id, @RequestBody ResModel res) {
+        return ResponseEntity.ok(service.updateReservation(id, res));
     }
 
     @GetMapping("/all")
-    @ResponseStatus(HttpStatus.OK)
-    public Flux<ResModel> getAllReservations() {
-        return service.getAllReservations();
+    public ResponseEntity<Flux<ResModel>> getAllReservations() {
+        return ResponseEntity.ok(service.getAllReservations());
     }
 
 //    @GetMapping("/findByLawyerId/{id}")
@@ -53,7 +53,7 @@ public class ResController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public Mono<Void> deleteReservation(@PathVariable("id") String id) {
-        return service.deleteReservation(id);
+    public ResponseEntity<Mono<Void>> deleteReservation(@PathVariable("id") String id) {
+        return ResponseEntity.ok(service.deleteReservation(id));
     }
 }

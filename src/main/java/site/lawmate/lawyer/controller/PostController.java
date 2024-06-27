@@ -4,10 +4,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import site.lawmate.lawyer.domain.model.LawyerModel;
 import site.lawmate.lawyer.domain.model.PostModel;
 import site.lawmate.lawyer.service.impl.PostServiceImpl;
 
@@ -23,35 +24,33 @@ public class PostController {
     private final PostServiceImpl service;
     
 
-    @PostMapping("/save/{lawyerId}")
-    @ResponseStatus(HttpStatus.OK)
-    public Mono<PostModel> createPost(@PathVariable("lawyerId") String lawyerId, @RequestBody PostModel post) {
-        return service.createPost(lawyerId, post);
+    @PostMapping("/save/{id}")
+    public ResponseEntity<Mono<LawyerModel>> createPost(@PathVariable("id") String lawyerId, @RequestBody PostModel post) {
+        return ResponseEntity.ok(service.postToLawyer(lawyerId, post));
+
     }
-    @GetMapping("/{lawyerId}")
-    @ResponseStatus(HttpStatus.OK)
-    public Flux<PostModel> getPostsByLawyerId(@PathVariable("lawyerId") String lawyerId) {
-        return service.getPostsByLawyerId(lawyerId);
+    @GetMapping("/{id}")
+    public ResponseEntity<Flux<PostModel>> getPostsByLawyerId(@PathVariable("id") String id) {
+        return ResponseEntity.ok(service.getPostsByLawyerId(id));
     }
 
-    @PatchMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public Mono<PostModel> updatePost(@PathVariable("id") String id, @RequestBody PostModel post) {
-        return service.updatePost(id, post);
+    @PatchMapping("/{postId}")
+    public ResponseEntity<Mono<PostModel>> updatePost(
+            @PathVariable("postId") String postId,
+            @RequestBody PostModel updatedPost) {
+        return ResponseEntity.ok(service.updatePost(postId, updatedPost));
     }
 
     @GetMapping("/all")
-    @ResponseStatus(HttpStatus.OK)
-    public Flux<PostModel> getAllPosts() {
-        return service.getAllPosts();
+    public ResponseEntity<Flux<PostModel>> getAllPosts() {
+        return ResponseEntity.ok(service.getAllPosts());
     }
 
 
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public Mono<Void> deletePost(@PathVariable("id") String id) {
-        return service.deletePost(id);
+    public ResponseEntity<Mono<Void>> deletePost(@PathVariable("id") String id) {
+        return ResponseEntity.ok(service.deletePost(id));
     }
 
 }

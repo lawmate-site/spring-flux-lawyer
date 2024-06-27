@@ -1,8 +1,12 @@
 package site.lawmate.lawyer.domain.model;
 
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.LocalDateTime;
 
 @Data
 @Document(collection = "lawyer_details")
@@ -17,9 +21,6 @@ public class LawyerDetailModel {
     String address;
     String addressDetail;
     String belongPhone;
-    String image;
-    String pdf;
-    String sign;
     String law;
     String visitCost;
     String phoneCost;
@@ -28,5 +29,9 @@ public class LawyerDetailModel {
     String major;
     Boolean premium;
 
+    @CreatedDate
+    LocalDateTime createdDate;
+    @LastModifiedDate
+    LocalDateTime modifiedDate;
 
 }

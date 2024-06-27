@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -23,32 +24,32 @@ public class NoticeController {
     private final NoticeServiceImpl service;
 
     @PostMapping("/save")
-    public Mono<NoticeModel> createNoticeModel(@RequestBody NoticeModel notification) {
-        return service.createNoticeModel(notification);
+    public ResponseEntity<Mono<NoticeModel>> createNoticeModel(@RequestBody NoticeModel notification) {
+        return ResponseEntity.ok(service.createNoticeModel(notification));
     }
 
     @PostMapping("/respond/{id}")
-    public Mono<NoticeModel> respondToNoticeModel(@PathVariable("id") String id, @RequestParam("status") String status) {
-        return service.updateNoticeModelStatus(id, status);
+    public ResponseEntity<Mono<NoticeModel>> respondToNoticeModel(@PathVariable("id") String id, @RequestParam("status") String status) {
+        return ResponseEntity.ok(service.updateNoticeModelStatus(id, status));
     }
 
     @GetMapping(value = "/lawyer", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<NoticeModel> subscribeToLawyerNoticeModels() {
-        return service.getLawyerNoticeModels();
+    public ResponseEntity<Flux<NoticeModel>> subscribeToLawyerNoticeModels() {
+        return ResponseEntity.ok(service.getLawyerNoticeModels());
     }
 
     @GetMapping(value = "/user/{userId}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<NoticeModel> subscribeToUserNoticeModels(@PathVariable("userId") String userId) {
-        return service.getUserNoticeModels(userId);
+    public ResponseEntity<Flux<NoticeModel>> subscribeToUserNoticeModels(@PathVariable("userId") String userId) {
+        return ResponseEntity.ok(service.getUserNoticeModels(userId));
     }
 
     @GetMapping("/lawyer/{lawyerId}")
-    public Flux<NoticeModel> getLawyerNotificationsByLawyerId(@PathVariable("lawyerId") String lawyerId) {
-        return service.getNotificationsByLawyerId(lawyerId);
+    public ResponseEntity<Flux<NoticeModel>> getLawyerNotificationsByLawyerId(@PathVariable("lawyerId") String lawyerId) {
+        return ResponseEntity.ok(service.getNotificationsByLawyerId(lawyerId));
     }
 
     @DeleteMapping("/{id}")
-    public Mono<Void> deleteNotification(@PathVariable("id") String id) {
-        return service.deleteNotification(id);
+    public ResponseEntity<Mono<Void>> deleteNotification(@PathVariable("id") String id) {
+        return ResponseEntity.ok(service.deleteNotification(id));
     }
 }

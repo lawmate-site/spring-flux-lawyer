@@ -14,10 +14,7 @@ import site.lawmate.lawyer.service.NoticeService;
 @Slf4j
 @RequiredArgsConstructor
 public class NoticeServiceImpl implements NoticeService {
-
-
     private final NoticeRepository noticeRepository;
-
     private final Sinks.Many<NoticeModel> lawyerSink = Sinks.many().multicast().onBackpressureBuffer();
     private final Sinks.Many<NoticeModel> userSink = Sinks.many().multicast().onBackpressureBuffer();
 

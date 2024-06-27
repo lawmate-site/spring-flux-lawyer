@@ -7,5 +7,7 @@ import site.lawmate.lawyer.domain.model.PostModel;
 
 @Repository
 public interface PostRepository extends ReactiveMongoRepository<PostModel, String> {
-    Flux<PostModel> findByLawyerId(String lawyerId);
+    Flux<PostModel> findAllByLawyerId(String lawyerId);
+
+    Flux<PostModel> findByLawyerId(String id);
 }
