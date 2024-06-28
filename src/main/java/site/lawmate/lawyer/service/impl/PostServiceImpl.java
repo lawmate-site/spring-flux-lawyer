@@ -10,7 +10,6 @@ import site.lawmate.lawyer.repository.LawyerRepository;
 import site.lawmate.lawyer.repository.PostRepository;
 import site.lawmate.lawyer.service.PostService;
 
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -24,13 +23,13 @@ public class PostServiceImpl implements PostService {
                     post.setLawyerId(lawyer.getId());
                     return postRepository.save(post)
                             .then(Mono.just(lawyer));
-                })
-                .flatMap(lawyer -> postRepository.findByLawyerId(lawyer.getId()).collectList()
-                        .flatMap(posts -> {
-                            lawyer.setPosts(posts);
-                            return Mono.just(lawyer);
-                        })
-                );
+                });
+//                .flatMap(lawyer -> postRepository.findByLawyerId(lawyer.getId()).collectList()
+//                        .flatMap(posts -> {
+//                            lawyer.setPosts(posts);
+//                            return lawyerRepository.save(lawyer);
+//                        })
+//                );
     }
 
     public Flux<PostModel> getPostsByLawyerId(String lawyerId) {

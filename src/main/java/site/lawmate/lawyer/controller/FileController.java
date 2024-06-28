@@ -12,7 +12,7 @@ import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 import site.lawmate.lawyer.domain.model.FileModel;
-import site.lawmate.lawyer.service.FileService;
+import site.lawmate.lawyer.service.impl.FileServiceImpl;
 
 @Slf4j
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -24,17 +24,18 @@ import site.lawmate.lawyer.service.FileService;
 @RequestMapping("/files")
 public class FileController {
 
-    private final FileService fileService;
+    private final FileServiceImpl fileService;
 
-    @PostMapping("/upload")
-    public ResponseEntity<Mono<FileModel>> uploadFile(@RequestPart("file") FilePart filePart) {
+    @PostMapping("/upload/{lawyerId}")
+    public ResponseEntity<Mono<FileModel>> uploadFile(@PathVariable("lawyerId")String lawyerId, @RequestPart("file") FilePart filePart) {
         if (filePart != null) {
             log.info("파일 이름 : " + filePart.filename());
         } else {
             log.info("파일이 존재하지 않습니다.");
         }
 
-        return ResponseEntity.ok(fileService.saveFile(filePart));
+        assert filePart != null; // 파일이 존재하지 않을 경우 에러 발생
+        return ResponseEntity.ok(fileService.saveFile(lawyerId, filePart));
     }
 
     @GetMapping("/download/{id}")

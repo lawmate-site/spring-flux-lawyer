@@ -36,11 +36,11 @@ public class LawyerModel implements Serializable {
     @LastModifiedDate
     LocalDateTime modifiedDate;
 
-    List<PostModel> posts;
-    Flux<FileModel> files;
-    Flux<ReplyModel> replies;
-    Flux<ResModel> reservations;
-    Flux<NoticeModel> notices;
+//    List<PostModel> posts;
+//    List<FileModel> files;
+//    List<ReplyModel> replies;
+//    List<ResModel> reservations;
+//    List<NoticeModel> notices;
     LawyerDetailModel detail;
 
 }

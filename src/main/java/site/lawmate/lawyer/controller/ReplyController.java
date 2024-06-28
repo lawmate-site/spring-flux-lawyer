@@ -24,8 +24,10 @@ public class ReplyController {
     private final ReplyServiceImpl service;
 
     @PostMapping("/save/{id}")
-    public ResponseEntity<Mono<LawyerModel>> createReply(@PathVariable("id") String lawyerId, @RequestBody ReplyModel reply) {
-        return ResponseEntity.ok(service.replyToLawyer(lawyerId, reply));
+    public ResponseEntity<Mono<LawyerModel>> createReply(@PathVariable("id") String lawyerId,
+                                                         @RequestParam String articleId,
+                                                         @RequestBody ReplyModel reply) {
+        return ResponseEntity.ok(service.replyToLawyer(lawyerId, articleId, reply));
     }
 
     @GetMapping("/{id}")

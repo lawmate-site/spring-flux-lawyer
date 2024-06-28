@@ -19,6 +19,8 @@ public class ResDto {
     private String startTime;
     private String endTime;
     private String status;
+    private String userId;
+    private String lawyerId;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 }

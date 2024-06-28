@@ -16,25 +16,21 @@ public class ReplyServiceImpl implements ReplyService {
     private final ReplyRepository replyRepository;
     private final LawyerRepository lawyerRepository;
 
-    public Mono<LawyerModel> replyToLawyer(String id, ReplyModel reply) {
+    public Mono<LawyerModel> replyToLawyer(String id, String articleId, ReplyModel reply) {
         return lawyerRepository.findById(id)
                 .flatMap(lawyer -> {
-                    reply.setLawyerId(id); // ReplyModel에 변호사 ID 설정
+                    reply.setArticleId(articleId);
+                    reply.setLawyerId(lawyer.getId());
                     return replyRepository.save(reply)
-                            .flatMap(savedReply -> {
-                                // 기존 replys에 savedReply를 추가하는 로직
-                                Flux<ReplyModel> updatedReplies = lawyer.getReplies().concatWith(Flux.just(savedReply));
-                                lawyer.setReplies(updatedReplies);
-                                return lawyerRepository.save(lawyer);
-                            });
+                            .then(Mono.just(lawyer));
                 });
     }
 
-    public Mono<ReplyModel> updateReply(String id, ReplyModel reply) {
+    public Mono<ReplyModel> updateReply(String id, ReplyModel replyModel) {
         return replyRepository.findById(id)
-                .flatMap(i->{
-                    i.setContent(reply.getContent());
-                    return replyRepository.save(i);
+                .flatMap(reply->{
+                    reply.setContent(replyModel.getContent());
+                    return replyRepository.save(reply);
                 });
     }
 

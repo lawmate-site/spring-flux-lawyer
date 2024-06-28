@@ -21,6 +21,8 @@ public class ResModel {
     String startTime;
     String endTime;
     String status;
+    String userId;
+    String lawyerId;
     @CreatedDate
     LocalDateTime createdDate;
     @LastModifiedDate

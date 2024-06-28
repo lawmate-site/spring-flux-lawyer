@@ -90,9 +90,4 @@ public class LawyerController {
     public ResponseEntity<Mono<Void>> deleteLawyer(@PathVariable("id") String id) {
         return ResponseEntity.ok(lawyerService.deleteLawyer(id));
     }
-
-    @GetMapping("/reply/{id}")
-    public Flux<ReplyModel> getRepliesByLawyerId(@PathVariable("id") String id) {
-        return lawyerService.getRepliesById(id);
-    }
 }

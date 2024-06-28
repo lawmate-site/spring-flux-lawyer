@@ -102,10 +102,6 @@ public class LawyerServiceImpl implements LawyerService {
         return lawyerRepository.deleteById(id);
     }
 
-    public Mono<Void> deleteAllLawyers() {
-        return lawyerRepository.deleteAll();
-    }
-
     public Flux<LawyerModel> findByName(String lastName) {
         return lawyerRepository.findByName(lastName);
     }
@@ -119,11 +115,6 @@ public class LawyerServiceImpl implements LawyerService {
                                 return lawyerRepository.save(lawyer);
                             });
                 });
-    }
-
-    public Flux<ReplyModel> getRepliesById(String id) {
-        return lawyerRepository.findById(id)
-                .flatMapMany(lawyerModel -> Flux.fromIterable((Iterable<ReplyModel>) lawyerModel.getReplies()));
     }
 
     // 시큐리티 로그인

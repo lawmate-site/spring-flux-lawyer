@@ -20,6 +20,7 @@ public class FileModel {
     String filename;
     String contentType;
     byte[] data;
+    String lawyerId;
     @CreatedDate
     LocalDateTime createdDate;
     @LastModifiedDate
