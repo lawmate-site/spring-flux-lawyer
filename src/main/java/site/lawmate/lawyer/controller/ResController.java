@@ -9,8 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import site.lawmate.lawyer.domain.model.ResModel;
-import site.lawmate.lawyer.service.impl.ResServiceImpl;
+import site.lawmate.lawyer.domain.model.Reservation;
+import site.lawmate.lawyer.service.impl.ReservationServiceImpl;
 
 @Slf4j
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -21,7 +21,7 @@ import site.lawmate.lawyer.service.impl.ResServiceImpl;
         @ApiResponse(responseCode = "404", description = "Customer not found")})
 @RequestMapping(path = "/reservation")
 public class ResController {
-    private final ResServiceImpl service;
+    private final ReservationServiceImpl service;
 
 
 //    @GetMapping("/{date}")
@@ -30,17 +30,17 @@ public class ResController {
 //    }
 
     @PostMapping("/save")
-    public ResponseEntity<Mono<ResModel>> createReservation(@RequestBody ResModel reservation) {
+    public ResponseEntity<Mono<Reservation>> createReservation(@RequestBody Reservation reservation) {
         return ResponseEntity.ok(service.createReservation(reservation));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Mono<ResModel>> updateReservation(@PathVariable("id") String id, @RequestBody ResModel res) {
+    public ResponseEntity<Mono<Reservation>> updateReservation(@PathVariable("id") String id, @RequestBody Reservation res) {
         return ResponseEntity.ok(service.updateReservation(id, res));
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Flux<ResModel>> getAllReservations() {
+    public ResponseEntity<Flux<Reservation>> getAllReservations() {
         return ResponseEntity.ok(service.getAllReservations());
     }
 

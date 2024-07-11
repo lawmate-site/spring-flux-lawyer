@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Setter
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class RoleModel implements Serializable  {
+public class Role implements Serializable  {
 
 
 

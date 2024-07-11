@@ -8,8 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import site.lawmate.lawyer.domain.model.LawyerModel;
-import site.lawmate.lawyer.domain.model.PostModel;
+import site.lawmate.lawyer.domain.model.Lawyer;
+import site.lawmate.lawyer.domain.model.Post;
 import site.lawmate.lawyer.service.impl.PostServiceImpl;
 
 @Slf4j
@@ -25,24 +25,24 @@ public class PostController {
     
 
     @PostMapping("/save/{id}")
-    public ResponseEntity<Mono<LawyerModel>> createPost(@PathVariable("id") String lawyerId, @RequestBody PostModel post) {
+    public ResponseEntity<Mono<Lawyer>> createPost(@PathVariable("id") String lawyerId, @RequestBody Post post) {
         return ResponseEntity.ok(service.postToLawyer(lawyerId, post));
 
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Flux<PostModel>> getPostsByLawyerId(@PathVariable("id") String id) {
+    public ResponseEntity<Flux<Post>> getPostsByLawyerId(@PathVariable("id") String id) {
         return ResponseEntity.ok(service.getPostsByLawyerId(id));
     }
 
     @PatchMapping("/{postId}")
-    public ResponseEntity<Mono<PostModel>> updatePost(
+    public ResponseEntity<Mono<Post>> updatePost(
             @PathVariable("postId") String postId,
-            @RequestBody PostModel updatedPost) {
+            @RequestBody Post updatedPost) {
         return ResponseEntity.ok(service.updatePost(postId, updatedPost));
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Flux<PostModel>> getAllPosts() {
+    public ResponseEntity<Flux<Post>> getAllPosts() {
         return ResponseEntity.ok(service.getAllPosts());
     }
 

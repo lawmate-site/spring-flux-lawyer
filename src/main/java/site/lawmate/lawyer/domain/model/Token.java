@@ -13,7 +13,7 @@ import java.util.Date;
 @Data
 @Document("tokens")
 @ToString
-public class TokenModel {
+public class Token {
     @Id
     private String id;
     private String refreshToken;

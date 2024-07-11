@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
-import site.lawmate.lawyer.domain.model.FileModel;
+import site.lawmate.lawyer.domain.model.File;
 import site.lawmate.lawyer.service.impl.FileServiceImpl;
 
 @Slf4j
@@ -27,7 +27,7 @@ public class FileController {
     private final FileServiceImpl fileService;
 
     @PostMapping("/upload/{lawyerId}")
-    public ResponseEntity<Mono<FileModel>> uploadFile(@PathVariable("lawyerId")String lawyerId, @RequestPart("file") FilePart filePart) {
+    public ResponseEntity<Mono<File>> uploadFile(@PathVariable("lawyerId")String lawyerId, @RequestPart("file") FilePart filePart) {
         if (filePart != null) {
             log.info("파일 이름 : " + filePart.filename());
         } else {
@@ -41,11 +41,11 @@ public class FileController {
     @GetMapping("/download/{id}")
     public Mono<ResponseEntity<ByteArrayResource>> downloadFile(@PathVariable("id") String id) {
         return fileService.getFileById(id)
-                .map(fileModel -> {
-                    ByteArrayResource resource = new ByteArrayResource(fileModel.getData());
+                .map(file -> {
+                    ByteArrayResource resource = new ByteArrayResource(file.getData());
                     return ResponseEntity.ok()
-                            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileModel.getFilename() + "\"")
-                            .contentType(MediaType.parseMediaType(fileModel.getContentType()))
+                            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
+                            .contentType(MediaType.parseMediaType(file.getContentType()))
                             .body(resource);
                 })
                 .defaultIfEmpty(ResponseEntity.notFound().build());

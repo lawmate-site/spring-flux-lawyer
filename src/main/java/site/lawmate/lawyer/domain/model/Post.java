@@ -9,20 +9,18 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 
 @Data
-@Document(collection = "notices")
+@Document(collection = "posts")
 @Builder
 @AllArgsConstructor
 @ToString(exclude = "id")
 @NoArgsConstructor
-public class NoticeModel {
+public class Post {
     @Id
     String id;
-    String message; // user message
-    String userId;
-    String response; // lawyer response
+    String title;
+    String content;
+    String category;
     String lawyerId;
-    String attachment;
-    String status;
     @CreatedDate
     LocalDateTime createdDate;
     @LastModifiedDate

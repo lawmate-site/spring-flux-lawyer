@@ -7,9 +7,8 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import site.lawmate.lawyer.component.Messenger;
 import site.lawmate.lawyer.domain.dto.LawyerDto;
-import site.lawmate.lawyer.domain.model.LawyerDetailModel;
-import site.lawmate.lawyer.domain.model.LawyerModel;
-import site.lawmate.lawyer.domain.model.ReplyModel;
+import site.lawmate.lawyer.domain.model.LawyerDetail;
+import site.lawmate.lawyer.domain.model.Lawyer;
 import site.lawmate.lawyer.repository.LawyerDetailRepository;
 import site.lawmate.lawyer.repository.LawyerRepository;
 import site.lawmate.lawyer.service.LawyerService;
@@ -45,7 +44,7 @@ public class LawyerServiceImpl implements LawyerService {
                         .then(Mono.just(Messenger.builder().message("FAILURE").build())));
     }
 
-    public Flux<LawyerModel> getAllLawyers() {
+    public Flux<Lawyer> getAllLawyers() {
         return lawyerRepository.findAll();
     }
 
@@ -53,16 +52,16 @@ public class LawyerServiceImpl implements LawyerService {
         return lawyerRepository.count();
     }
 
-    public Mono<LawyerModel> getLawyerUsernameByEmail(String email) {
+    public Mono<Lawyer> getLawyerUsernameByEmail(String email) {
         return lawyerRepository.findByUsername(email);
     }
 
-    public Mono<LawyerModel> getLawyerById(String id) {
+    public Mono<Lawyer> getLawyerById(String id) {
         return lawyerRepository.findById(id);
     }
 
     // 변호사 추가 정보
-    public Mono<LawyerModel> addLawyerDetailToLawyer(String id, LawyerDetailModel detail) {
+    public Mono<Lawyer> addLawyerDetailToLawyer(String id, LawyerDetail detail) {
         return lawyerRepository.findById(id)
                 .flatMap(lawyer -> {
                     return lawyerDetailRepository.save(detail)
@@ -72,16 +71,16 @@ public class LawyerServiceImpl implements LawyerService {
                             });
                 });}
 
-    public Mono<LawyerDetailModel> getLawyerDetailById(String id) {
+    public Mono<LawyerDetail> getLawyerDetailById(String id) {
         return lawyerRepository.findById(id)
-                .map(LawyerModel::getDetail)
+                .map(Lawyer::getDetail)
                 ;}
 
-    public Mono<LawyerModel> addLawyer(LawyerModel lawyer) {
+    public Mono<Lawyer> addLawyer(Lawyer lawyer) {
         return lawyerRepository.save(lawyer);
     }
 
-    public Mono<LawyerModel> updateLawyer(String id, LawyerModel lawyer) {
+    public Mono<Lawyer> updateLawyer(String id, Lawyer lawyer) {
         return lawyerRepository.findById(id)
                 .flatMap(optionalLawyer -> {
                     if (lawyer.getPassword() != null) {
@@ -102,11 +101,11 @@ public class LawyerServiceImpl implements LawyerService {
         return lawyerRepository.deleteById(id);
     }
 
-    public Flux<LawyerModel> findByName(String lastName) {
+    public Flux<Lawyer> findByName(String lastName) {
         return lawyerRepository.findByName(lastName);
     }
 
-    public Mono<LawyerModel> updateLawyerDetail(String id, LawyerDetailModel detail) {
+    public Mono<Lawyer> updateLawyerDetail(String id, LawyerDetail detail) {
         return lawyerRepository.findById(id)
                 .flatMap(lawyer -> {
                     return lawyerDetailRepository.save(detail)
@@ -119,7 +118,7 @@ public class LawyerServiceImpl implements LawyerService {
 
     // 시큐리티 로그인
 
-//    public Mono<Messenger> login(LawyerModel lawyer) {
+//    public Mono<Messenger> login(Lawyer lawyer) {
 //        log.info("로그인에 사용되는 이메일 : {}",lawyer.getEmail());
 //
 //        var accessToken = jwtProvider.generateToken(null, lawyer, "accessToken");
@@ -150,7 +149,7 @@ public class LawyerServiceImpl implements LawyerService {
 //                        .refreshTokenExpiration(refreshTokenExpiration)
 //                        .build());
 //    }
-//    public Mono<Messenger> login2(LawyerModel lawyer) {
+//    public Mono<Messenger> login2(Lawyer lawyer) {
 //        log.info("로그인 2 에 사용되는 이메일 : {}",lawyer.getEmail());
 //        // Async
 //        // attach 방식으로 사용

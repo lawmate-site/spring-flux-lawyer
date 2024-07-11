@@ -9,19 +9,29 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 
 @Data
-@Document(collection = "replies")
+@Document(collection = "lawyer_details")
 @Builder
 @AllArgsConstructor
 @ToString(exclude = "id")
 @NoArgsConstructor
-public class ReplyModel {
+public class LawyerDetail {
     @Id
     String id;
-    String content;
-    String articleId;
-    String lawyerId;
+    String belong;
+    String address;
+    String addressDetail;
+    String belongPhone;
+    String law;
+    String visitCost;
+    String phoneCost;
+    String videoCost;
+    String university;
+    String major;
+    Boolean premium;
+
     @CreatedDate
     LocalDateTime createdDate;
     @LastModifiedDate
     LocalDateTime modifiedDate;
+
 }

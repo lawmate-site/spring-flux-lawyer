@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import site.lawmate.lawyer.domain.model.LawyerModel;
-import site.lawmate.lawyer.domain.model.ReplyModel;
+import site.lawmate.lawyer.domain.model.Lawyer;
+import site.lawmate.lawyer.domain.model.Reply;
 import site.lawmate.lawyer.repository.LawyerRepository;
 import site.lawmate.lawyer.repository.ReplyRepository;
 import site.lawmate.lawyer.service.ReplyService;
@@ -16,7 +16,7 @@ public class ReplyServiceImpl implements ReplyService {
     private final ReplyRepository replyRepository;
     private final LawyerRepository lawyerRepository;
 
-    public Mono<LawyerModel> replyToLawyer(String id, String articleId, ReplyModel reply) {
+    public Mono<Lawyer> replyToLawyer(String id, String articleId, Reply reply) {
         return lawyerRepository.findById(id)
                 .flatMap(lawyer -> {
                     reply.setArticleId(articleId);
@@ -26,7 +26,7 @@ public class ReplyServiceImpl implements ReplyService {
                 });
     }
 
-    public Mono<ReplyModel> updateReply(String id, ReplyModel replyModel) {
+    public Mono<Reply> updateReply(String id, Reply replyModel) {
         return replyRepository.findById(id)
                 .flatMap(reply->{
                     reply.setContent(replyModel.getContent());
@@ -34,7 +34,7 @@ public class ReplyServiceImpl implements ReplyService {
                 });
     }
 
-    public Flux<ReplyModel> getAllReplies() {
+    public Flux<Reply> getAllReplies() {
         return replyRepository.findAll();
     }
 
@@ -43,7 +43,7 @@ public class ReplyServiceImpl implements ReplyService {
         return replyRepository.deleteById(id);
     }
 
-    public Flux<ReplyModel> getRepliesByLawyerId(String lawyerId) {
+    public Flux<Reply> getRepliesByLawyerId(String lawyerId) {
         return replyRepository.findAllByLawyerId(lawyerId);
     }
 }

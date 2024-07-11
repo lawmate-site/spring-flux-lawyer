@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @ToString(exclude = "id")
 @Document(collection = "files")
-public class FileModel {
+public class File {
     @Id
     String id;
     String filename;

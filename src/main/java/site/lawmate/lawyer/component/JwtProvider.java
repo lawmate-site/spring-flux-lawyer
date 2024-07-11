@@ -7,7 +7,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import site.lawmate.lawyer.domain.model.LawyerModel;
+import site.lawmate.lawyer.domain.model.Lawyer;
 
 import javax.crypto.SecretKey;
 import java.time.Instant;
@@ -50,7 +50,7 @@ public class JwtProvider {
         return extractClaim(jwt, Claims::getExpiration).before(new Date());
     }
 
-    public String generateToken(Map<String, Object> extraClaims, LawyerModel userDetails, String isRefreshToken) {
+    public String generateToken(Map<String, Object> extraClaims, Lawyer userDetails, String isRefreshToken) {
 
         return Jwts.builder()
                 .claims(extraClaims)

@@ -8,8 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import site.lawmate.lawyer.domain.model.LawyerModel;
-import site.lawmate.lawyer.domain.model.ReplyModel;
+import site.lawmate.lawyer.domain.model.Lawyer;
+import site.lawmate.lawyer.domain.model.Reply;
 import site.lawmate.lawyer.service.impl.ReplyServiceImpl;
 
 @Slf4j
@@ -24,23 +24,23 @@ public class ReplyController {
     private final ReplyServiceImpl service;
 
     @PostMapping("/save/{id}")
-    public ResponseEntity<Mono<LawyerModel>> createReply(@PathVariable("id") String lawyerId,
+    public ResponseEntity<Mono<Lawyer>> createReply(@PathVariable("id") String lawyerId,
                                                          @RequestParam String articleId,
-                                                         @RequestBody ReplyModel reply) {
+                                                         @RequestBody Reply reply) {
         return ResponseEntity.ok(service.replyToLawyer(lawyerId, articleId, reply));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Flux<ReplyModel>> getRepliesByLawyerId(@PathVariable("id") String id) {
+    public ResponseEntity<Flux<Reply>> getRepliesByLawyerId(@PathVariable("id") String id) {
         return ResponseEntity.ok(service.getRepliesByLawyerId(id));
     }
     @PatchMapping("/{id}")
-    public ResponseEntity<Mono<ReplyModel>> updateReply(@PathVariable("id") String id, @RequestBody ReplyModel reply) {
+    public ResponseEntity<Mono<Reply>> updateReply(@PathVariable("id") String id, @RequestBody Reply reply) {
         return ResponseEntity.ok(service.updateReply(id, reply));
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Flux<ReplyModel>> getAllReplies() {
+    public ResponseEntity<Flux<Reply>> getAllReplies() {
         return ResponseEntity.ok(service.getAllReplies());
     }
 

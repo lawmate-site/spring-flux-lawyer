@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Sinks;
-import site.lawmate.lawyer.domain.model.NoticeModel;
+import site.lawmate.lawyer.domain.model.Notice;
 import site.lawmate.lawyer.repository.NoticeRepository;
 import site.lawmate.lawyer.service.NoticeService;
 
@@ -15,36 +15,36 @@ import site.lawmate.lawyer.service.NoticeService;
 @RequiredArgsConstructor
 public class NoticeServiceImpl implements NoticeService {
     private final NoticeRepository noticeRepository;
-    private final Sinks.Many<NoticeModel> lawyerSink = Sinks.many().multicast().onBackpressureBuffer();
-    private final Sinks.Many<NoticeModel> userSink = Sinks.many().multicast().onBackpressureBuffer();
+    private final Sinks.Many<Notice> lawyerSink = Sinks.many().multicast().onBackpressureBuffer();
+    private final Sinks.Many<Notice> userSink = Sinks.many().multicast().onBackpressureBuffer();
 
 
-    public Mono<NoticeModel> createNoticeModel(NoticeModel notice) {
+    public Mono<Notice> createNoticeModel(Notice notice) {
         return noticeRepository.save(notice)
-                .doOnSuccess(savedNoticeModel ->{
-                        log.info("NoticeModel created: {}", savedNoticeModel);
-                        lawyerSink.tryEmitNext(savedNoticeModel);
+                .doOnSuccess(savedNotice ->{
+                        log.info("NoticeModel created: {}", savedNotice);
+                        lawyerSink.tryEmitNext(savedNotice);
                 });
     }
 
-    public Mono<NoticeModel> updateNoticeModelStatus(String id, String status) {
+    public Mono<Notice> updateNoticeModelStatus(String id, String status) {
         return noticeRepository.findById(id)
                 .flatMap(notice -> {
                     notice.setStatus(status);
                     return noticeRepository.save(notice)
-                            .doOnSuccess(updatedNoticeModel -> userSink.tryEmitNext(updatedNoticeModel));
+                            .doOnSuccess(updatedNotice -> userSink.tryEmitNext(updatedNotice));
                 });
     }
 
-    public Flux<NoticeModel> getLawyerNoticeModels() {
+    public Flux<Notice> getLawyerNoticeModels() {
         return lawyerSink.asFlux();
     }
 
-    public Flux<NoticeModel> getUserNoticeModels(String userId) {
+    public Flux<Notice> getUserNoticeModels(String userId) {
         return userSink.asFlux().filter(notice -> notice.getUserId().equals(userId));
     }
 
-    public Flux<NoticeModel> getNotificationsByLawyerId(String lawyerId) {
+    public Flux<Notice> getNotificationsByLawyerId(String lawyerId) {
         return noticeRepository.findAll().filter(notification -> notification.getLawyerId().equals(lawyerId));
     }
 

@@ -4,16 +4,16 @@ import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import site.lawmate.lawyer.domain.model.LawyerDetailModel;
-import site.lawmate.lawyer.domain.model.LawyerModel;
+import site.lawmate.lawyer.domain.model.LawyerDetail;
+import site.lawmate.lawyer.domain.model.Lawyer;
 
 
 @Repository
-public interface LawyerRepository extends ReactiveMongoRepository<LawyerModel, String> {
+public interface LawyerRepository extends ReactiveMongoRepository<Lawyer, String> {
 
-    Flux<LawyerModel> findByName(String name);
-    Mono<LawyerModel> findByUsername(String username);
-    Mono<LawyerModel> findByDetail(LawyerDetailModel detail);
+    Flux<Lawyer> findByName(String name);
+    Mono<Lawyer> findByUsername(String username);
+    Mono<Lawyer> findByDetail(LawyerDetail detail);
 
 
 }

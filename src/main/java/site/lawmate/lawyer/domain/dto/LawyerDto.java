@@ -1,8 +1,6 @@
 package site.lawmate.lawyer.domain.dto;
 
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.stereotype.Component;
 import site.lawmate.lawyer.domain.model.*;
 
@@ -30,10 +28,10 @@ public class LawyerDto {
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
-    private List<PostModel> posts;
-    private List<FileModel> files;
-    private List<ReplyModel> replies;
-    private List<ResModel> reservations;
-    private List<NoticeModel> notices;
-    private LawyerDetailModel detail;
+    private List<Post> posts;
+    private List<File> files;
+    private List<Reply> replies;
+    private List<Reservation> reservations;
+    private List<Notice> notices;
+    private LawyerDetail detail;
 }

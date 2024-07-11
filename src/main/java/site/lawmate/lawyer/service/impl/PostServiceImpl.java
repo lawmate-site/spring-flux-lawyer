@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import site.lawmate.lawyer.domain.model.LawyerModel;
-import site.lawmate.lawyer.domain.model.PostModel;
+import site.lawmate.lawyer.domain.model.Lawyer;
+import site.lawmate.lawyer.domain.model.Post;
 import site.lawmate.lawyer.repository.LawyerRepository;
 import site.lawmate.lawyer.repository.PostRepository;
 import site.lawmate.lawyer.service.PostService;
@@ -17,7 +17,7 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final LawyerRepository lawyerRepository;
 
-    public Mono<LawyerModel> postToLawyer(String id, PostModel post) {
+    public Mono<Lawyer> postToLawyer(String id, Post post) {
         return lawyerRepository.findById(id)
                 .flatMap(lawyer -> {
                     post.setLawyerId(lawyer.getId());
@@ -32,11 +32,11 @@ public class PostServiceImpl implements PostService {
 //                );
     }
 
-    public Flux<PostModel> getPostsByLawyerId(String lawyerId) {
+    public Flux<Post> getPostsByLawyerId(String lawyerId) {
         return postRepository.findAllByLawyerId(lawyerId);
     }
 
-    public Mono<PostModel> updatePost(String postId, PostModel postModel) {
+    public Mono<Post> updatePost(String postId, Post postModel) {
         return postRepository.findById(postId)
                 .flatMap(post -> {
                     post.setTitle(postModel.getTitle());
@@ -46,7 +46,7 @@ public class PostServiceImpl implements PostService {
                 });
     }
 
-    public Flux<PostModel> getAllPosts() {
+    public Flux<Post> getAllPosts() {
         return postRepository.findAll();
     }
 

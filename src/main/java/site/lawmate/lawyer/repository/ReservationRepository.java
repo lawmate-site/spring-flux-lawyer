@@ -2,9 +2,9 @@ package site.lawmate.lawyer.repository;
 
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
-import site.lawmate.lawyer.domain.model.ResModel;
+import site.lawmate.lawyer.domain.model.Reservation;
 
 @Repository
-public interface ResRepository extends ReactiveMongoRepository<ResModel, String> {
+public interface ReservationRepository extends ReactiveMongoRepository<Reservation, String> {
 
 }

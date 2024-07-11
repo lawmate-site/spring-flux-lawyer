@@ -1,13 +1,12 @@
 package site.lawmate.lawyer.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
-import site.lawmate.lawyer.domain.model.FileModel;
+import site.lawmate.lawyer.domain.model.File;
 import site.lawmate.lawyer.repository.FileRepository;
 import site.lawmate.lawyer.repository.LawyerRepository;
 
@@ -18,7 +17,7 @@ public class FileServiceImpl {
     private final FileRepository fileRepository;
     private final LawyerRepository lawyerRepository;
 
-    public Mono<FileModel> saveFile(String lawyerId, FilePart filePart) {
+    public Mono<File> saveFile(String lawyerId, FilePart filePart) {
         return lawyerRepository.findById(lawyerId)
                 .flatMap(lawyer -> filePart.content()
                     .map(dataBuffer -> {
@@ -34,18 +33,18 @@ public class FileServiceImpl {
                         return combined;
                     })
                     .flatMap(bytes -> {
-                        FileModel fileModel = new FileModel();
-                        fileModel.setFilename(filePart.filename());
+                        File file = new File();
+                        file.setFilename(filePart.filename());
                         MediaType mediaType = filePart.headers().getContentType();
-                        fileModel.setContentType(mediaType != null ? mediaType.toString() : "application/octet-stream");
-                        fileModel.setData(bytes);
-                        fileModel.setLawyerId(lawyerId);
-                        return fileRepository.save(fileModel);
+                        file.setContentType(mediaType != null ? mediaType.toString() : "application/octet-stream");
+                        file.setData(bytes);
+                        file.setLawyerId(lawyerId);
+                        return fileRepository.save(file);
                     })
                 );
     }
 
-    public Mono<FileModel> getFileById(String id) {
+    public Mono<File> getFileById(String id) {
         return fileRepository.findById(id);
     }
 

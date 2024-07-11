@@ -9,20 +9,23 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 
 @Data
-@Document(collection = "posts")
+@Document(collection = "reservations")
 @Builder
 @AllArgsConstructor
 @ToString(exclude = "id")
 @NoArgsConstructor
-public class PostModel {
+public class Reservation {
     @Id
     String id;
-    String title;
-    String content;
-    String category;
+    String date;
+    String startTime;
+    String endTime;
+    String status;
+    String userId;
     String lawyerId;
     @CreatedDate
     LocalDateTime createdDate;
     @LastModifiedDate
     LocalDateTime modifiedDate;
+
 }
