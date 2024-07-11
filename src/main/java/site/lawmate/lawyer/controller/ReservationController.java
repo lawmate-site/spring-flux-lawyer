@@ -20,7 +20,7 @@ import site.lawmate.lawyer.service.impl.ReservationServiceImpl;
         @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
         @ApiResponse(responseCode = "404", description = "Customer not found")})
 @RequestMapping(path = "/reservation")
-public class ResController {
+public class ReservationController {
     private final ReservationServiceImpl service;
 
 
