@@ -21,6 +21,8 @@ public class Reservation implements Persistable<String> {
     @Id
     String id;
     String date;
+    String time;
+    String message;
     String status;
     String userId;
     String lawyerId;

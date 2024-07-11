@@ -53,4 +53,8 @@ public class PostServiceImpl implements PostService {
     public Mono<Void> deletePost(String id) {
         return postRepository.deleteById(id);
     }
+
+    public Mono<Void> deleteAllPosts() {
+        return postRepository.deleteAll();
+    }
 }

@@ -29,6 +29,7 @@ public class LawyerDetail implements Persistable<String> {
     String videoCost;
     String university;
     String major;
+    String time;
     Boolean premium;
 
     @CreatedDate

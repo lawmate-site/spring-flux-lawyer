@@ -46,5 +46,9 @@ public class ReplyServiceImpl implements ReplyService {
     public Flux<Reply> getRepliesByLawyerId(String lawyerId) {
         return replyRepository.findAllByLawyerId(lawyerId);
     }
+
+    public Mono<Void> deleteAllReplies() {
+        return replyRepository.deleteAll();
+    }
 }
 

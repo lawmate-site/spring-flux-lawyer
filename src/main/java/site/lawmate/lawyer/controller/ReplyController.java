@@ -49,4 +49,9 @@ public class ReplyController {
     public ResponseEntity<Mono<Void>> deleteReply(@PathVariable("id") String id) {
         return ResponseEntity.ok(service.deleteReply(id));
     }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<Mono<Void>> deleteAllReplies() {
+        return ResponseEntity.ok(service.deleteAllReplies());
+    }
 }

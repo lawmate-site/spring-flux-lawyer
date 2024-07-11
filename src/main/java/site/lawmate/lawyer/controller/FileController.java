@@ -31,7 +31,8 @@ public class FileController {
     private final FileServiceImpl fileService;
 
     @PostMapping("/upload/{lawyerId}")
-    public ResponseEntity<Flux<File>> uploadFile(@PathVariable("lawyerId")String lawyerId, @RequestPart("file") Flux<FilePart> fileParts) {
+    public ResponseEntity<Flux<File>> uploadFile(@PathVariable("lawyerId")String lawyerId,
+                                                 @RequestPart("file") Flux<FilePart> fileParts) {
         return ResponseEntity.ok(fileService.saveFiles(lawyerId, fileParts));
     }
 
@@ -51,6 +52,11 @@ public class FileController {
     @DeleteMapping("/{id}")
     public Mono<Void> deleteFile(@PathVariable("id") String id) {
         return fileService.deleteFileById(id);
+    }
+
+    @DeleteMapping("/delete")
+    public Mono<Void> deleteAllFiles() {
+        return fileService.deleteAllFiles();
     }
 
 }

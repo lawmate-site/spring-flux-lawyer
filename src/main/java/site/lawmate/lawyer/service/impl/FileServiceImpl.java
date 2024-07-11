@@ -57,4 +57,7 @@ public class FileServiceImpl {
         return fileRepository.deleteById(id);
     }
 
+    public Mono<Void> deleteAllFiles() {
+        return fileRepository.deleteAll();
+    }
 }

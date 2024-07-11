@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -22,12 +23,6 @@ import site.lawmate.lawyer.service.impl.ReservationServiceImpl;
 @RequestMapping(path = "/reservation")
 public class ReservationController {
     private final ReservationServiceImpl service;
-
-
-//    @GetMapping("/{date}")
-//    public Flux<ResModel> getReservationsForDate(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-//        return service.getReservationsByDate(date);
-//    }
 
     @PostMapping("/save")
     public ResponseEntity<Mono<Reservation>> createReservation(@RequestBody Reservation reservation) {
@@ -52,5 +47,20 @@ public class ReservationController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Mono<Void>> deleteReservation(@PathVariable("id") String id) {
         return ResponseEntity.ok(service.deleteReservation(id));
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<Mono<Void>> deleteAllReservations() {
+        return ResponseEntity.ok(service.deleteAllReservations());
+    }
+
+    @GetMapping(value = "/notice", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<Reservation> noticeAllReservations() {
+        return service.getReservationUpdates();
+    }
+
+    @PatchMapping("/status/{id}")
+    public Mono<Reservation> updateReservationStatus(@PathVariable String id, @RequestParam String status) {
+        return service.updateReservationStatus(id, status);
     }
 }

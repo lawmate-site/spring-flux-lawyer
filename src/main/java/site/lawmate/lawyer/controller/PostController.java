@@ -53,4 +53,9 @@ public class PostController {
         return ResponseEntity.ok(service.deletePost(id));
     }
 
+    @DeleteMapping("/delete")
+    public ResponseEntity<Mono<Void>> deleteAllPosts() {
+        return ResponseEntity.ok(service.deleteAllPosts());
+    }
+
 }

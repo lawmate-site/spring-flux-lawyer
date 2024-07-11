@@ -44,12 +44,17 @@ public class NoticeController {
     }
 
     @GetMapping("/lawyer/{lawyerId}")
-    public ResponseEntity<Flux<Notice>> getLawyerNotificationsByLawyerId(@PathVariable("lawyerId") String lawyerId) {
-        return ResponseEntity.ok(service.getNotificationsByLawyerId(lawyerId));
+    public ResponseEntity<Flux<Notice>> getLawyerNoticesByLawyerId(@PathVariable("lawyerId") String lawyerId) {
+        return ResponseEntity.ok(service.getNoticesByLawyerId(lawyerId));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Mono<Void>> deleteNotification(@PathVariable("id") String id) {
-        return ResponseEntity.ok(service.deleteNotification(id));
+    public ResponseEntity<Mono<Void>> deleteNotice(@PathVariable("id") String id) {
+        return ResponseEntity.ok(service.deleteNotice(id));
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<Mono<Void>> deleteAllNotices() {
+        return ResponseEntity.ok(service.deleteAllNotices());
     }
 }

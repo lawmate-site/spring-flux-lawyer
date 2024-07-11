@@ -19,11 +19,9 @@ import java.time.LocalDateTime;
 public class Notice implements Persistable<String> {
     @Id
     String id;
-    String message; // user message
+    String message;
     String userId;
-    String response; // lawyer response
     String lawyerId;
-    String attachment;
     String status;
     @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

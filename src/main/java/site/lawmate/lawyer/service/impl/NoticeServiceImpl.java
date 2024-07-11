@@ -2,6 +2,8 @@ package site.lawmate.lawyer.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
+import org.springframework.data.mongodb.core.messaging.ChangeStreamRequest;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -15,6 +17,8 @@ import site.lawmate.lawyer.service.NoticeService;
 @RequiredArgsConstructor
 public class NoticeServiceImpl implements NoticeService {
     private final NoticeRepository noticeRepository;
+
+    private final Sinks.Many<Notice> sink = Sinks.many().multicast().onBackpressureBuffer();
     private final Sinks.Many<Notice> lawyerSink = Sinks.many().multicast().onBackpressureBuffer();
     private final Sinks.Many<Notice> userSink = Sinks.many().multicast().onBackpressureBuffer();
 
@@ -32,7 +36,7 @@ public class NoticeServiceImpl implements NoticeService {
                 .flatMap(notice -> {
                     notice.setStatus(status);
                     return noticeRepository.save(notice)
-                            .doOnSuccess(updatedNotice -> userSink.tryEmitNext(updatedNotice));
+                            .doOnSuccess(userSink::tryEmitNext);
                 });
     }
 
@@ -44,11 +48,15 @@ public class NoticeServiceImpl implements NoticeService {
         return userSink.asFlux().filter(notice -> notice.getUserId().equals(userId));
     }
 
-    public Flux<Notice> getNotificationsByLawyerId(String lawyerId) {
+    public Flux<Notice> getNoticesByLawyerId(String lawyerId) {
         return noticeRepository.findAll().filter(notification -> notification.getLawyerId().equals(lawyerId));
     }
 
-    public Mono<Void> deleteNotification(String id) {
+    public Mono<Void> deleteNotice(String id) {
         return noticeRepository.deleteById(id);
+    }
+
+    public Mono<Void> deleteAllNotices() {
+        return noticeRepository.deleteAll();
     }
 }
