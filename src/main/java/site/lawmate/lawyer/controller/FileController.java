@@ -2,6 +2,7 @@ package site.lawmate.lawyer.controller;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.ws.rs.Path;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ByteArrayResource;
@@ -10,9 +11,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import site.lawmate.lawyer.domain.model.File;
 import site.lawmate.lawyer.service.impl.FileServiceImpl;
+
+import java.util.List;
 
 @Slf4j
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -27,15 +31,8 @@ public class FileController {
     private final FileServiceImpl fileService;
 
     @PostMapping("/upload/{lawyerId}")
-    public ResponseEntity<Mono<File>> uploadFile(@PathVariable("lawyerId")String lawyerId, @RequestPart("file") FilePart filePart) {
-        if (filePart != null) {
-            log.info("파일 이름 : " + filePart.filename());
-        } else {
-            log.info("파일이 존재하지 않습니다.");
-        }
-
-        assert filePart != null; // 파일이 존재하지 않을 경우 에러 발생
-        return ResponseEntity.ok(fileService.saveFile(lawyerId, filePart));
+    public ResponseEntity<Flux<File>> uploadFile(@PathVariable("lawyerId")String lawyerId, @RequestPart("file") Flux<FilePart> fileParts) {
+        return ResponseEntity.ok(fileService.saveFiles(lawyerId, fileParts));
     }
 
     @GetMapping("/download/{id}")
@@ -49,6 +46,11 @@ public class FileController {
                             .body(resource);
                 })
                 .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}")
+    public Mono<Void> deleteFile(@PathVariable("id") String id) {
+        return fileService.deleteFileById(id);
     }
 
 }

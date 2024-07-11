@@ -36,7 +36,7 @@ public class ReservationController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<Mono<Reservation>> updateReservation(@PathVariable("id") String id, @RequestBody Reservation res) {
-        return ResponseEntity.ok(service.updateReservation(id, res));
+        return ResponseEntity.ok(service.updateReservationStatus(id, res));
     }
 
     @GetMapping("/all")
@@ -44,15 +44,12 @@ public class ReservationController {
         return ResponseEntity.ok(service.getAllReservations());
     }
 
-//    @GetMapping("/findByLawyerId/{id}")
-//    @ResponseStatus(HttpStatus.OK)
-//    public Mono<ResModel> getReservationByLawyerId(@PathVariable("id") String id) {
-//        return service.getReservationByLawyerId(id);
-//    }
-
+    @GetMapping("/{lawyerId}")
+    public ResponseEntity<Flux<Reservation>> getReservationByLawyerId(@PathVariable("lawyerId") String lawyerId) {
+        return ResponseEntity.ok(service.getReservationByLawyerId(lawyerId));
+    }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Mono<Void>> deleteReservation(@PathVariable("id") String id) {
         return ResponseEntity.ok(service.deleteReservation(id));
     }

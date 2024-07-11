@@ -13,36 +13,29 @@ import site.lawmate.lawyer.service.ReservationService;
 @RequiredArgsConstructor
 public class ReservationServiceImpl implements ReservationService {
     private final ReservationRepository reservationRepository;
-//    public Flux<ResModel> getReservationsByDate(LocalDate date) {
-//        return resRepository.findByDate(date);
-//    }
-    public Mono<Reservation> createReservation(Reservation reservation) {
-        return reservationRepository.save(reservation);
+
+    public Mono<Reservation> createReservation(Reservation res) {
+        return reservationRepository.save(res);
     }
-    public Mono<Reservation> updateReservation(String id, Reservation res) {
+
+    public Mono<Reservation> updateReservationStatus(String id, Reservation res) {
         return reservationRepository.findById(id)
                 .flatMap(reservation -> {
-                    reservation.setStatus(res
-                            .getStatus());
+                    reservation.setStatus(res.getStatus());
                     return reservationRepository.save(reservation);
                 });
     }
-
-
-
-
-
 
     public Flux<Reservation> getAllReservations() {
         return reservationRepository.findAll();
     }
 
-//    public Mono<ResModel> getReservationByLawyerId(String id) {
-//        return resRepository.findByLawyerId(id);
-//    }
-
+    public Flux<Reservation> getReservationByLawyerId(String lawyerId) {
+        return reservationRepository.findByLawyerId(lawyerId);
+    }
 
     public Mono<Void> deleteReservation(String id) {
         return reservationRepository.deleteById(id);
     }
+
 }
