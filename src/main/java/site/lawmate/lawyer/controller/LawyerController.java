@@ -89,4 +89,15 @@ public class LawyerController {
     public ResponseEntity<Mono<Void>> deleteLawyer(@PathVariable("id") String id) {
         return ResponseEntity.ok(lawyerService.deleteLawyer(id));
     }
+
+    @GetMapping("/username/{username}")
+    public ResponseEntity<Mono<Lawyer>> getLawyerByUsername(@PathVariable("username") String username) {
+        return ResponseEntity.ok(lawyerService.getLawyerByUsername(username));
+    }
+
+    @GetMapping("/detail/username/{username}")
+    public ResponseEntity<Mono<LawyerDetail>> getLawyerDetailByUsername(@PathVariable("username") String username) {
+        return ResponseEntity.ok(lawyerService.getLawyerDetailByUsername(username));
+    }
+
 }

@@ -60,6 +60,8 @@ public class LawyerServiceImpl implements LawyerService {
         return lawyerRepository.findById(id);
     }
 
+
+
     // 변호사 추가 정보
     public Mono<Lawyer> addLawyerDetailToLawyer(String id, LawyerDetail detail) {
         return lawyerRepository.findById(id)
@@ -114,6 +116,15 @@ public class LawyerServiceImpl implements LawyerService {
                                 return lawyerRepository.save(lawyer);
                             });
                 });
+    }
+
+    public Mono<Lawyer> getLawyerByUsername(String username) {
+        return lawyerRepository.findByUsername(username);
+    }
+
+    public Mono<LawyerDetail> getLawyerDetailByUsername(String username) {
+        return lawyerRepository.findByUsername(username)
+                .map(Lawyer::getDetail);
     }
 
     // 시큐리티 로그인
