@@ -15,11 +15,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @ToString
 public class FileDto {
-    @Id
     private String id;
     private String filename;
     private String contentType;
     private byte[] data;
+    private String lawyerId;
     LocalDateTime createdDate;
     LocalDateTime modifiedDate;
 }

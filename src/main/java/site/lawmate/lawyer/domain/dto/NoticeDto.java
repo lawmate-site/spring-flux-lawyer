@@ -17,8 +17,7 @@ public class NoticeDto {
     private String id;
     private String message;
     private String userId;
-    private String response;
-    private String attachment;
+    private String lawyerId;
     private String status;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;

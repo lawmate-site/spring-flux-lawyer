@@ -22,16 +22,11 @@ public class LawyerDto {
     private String phone;
     private String birth;
     private String lawyerNo;
-    private String account;
+    private String mid;
     private Boolean auth;
 
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
-    private List<Post> posts;
-    private List<File> files;
-    private List<Reply> replies;
-    private List<Reservation> reservations;
-    private List<Notice> notices;
     private LawyerDetail detail;
 }

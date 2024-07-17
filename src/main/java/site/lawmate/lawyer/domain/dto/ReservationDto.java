@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 public class ReservationDto {
     private String id;
     private String date;
-    private String startTime;
-    private String endTime;
+    private String time;
+    private String message;
     private String status;
     private String userId;
     private String lawyerId;

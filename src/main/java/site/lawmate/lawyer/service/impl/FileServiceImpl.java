@@ -10,12 +10,13 @@ import reactor.core.publisher.Mono;
 import site.lawmate.lawyer.domain.model.File;
 import site.lawmate.lawyer.repository.FileRepository;
 import site.lawmate.lawyer.repository.LawyerRepository;
+import site.lawmate.lawyer.service.FileService;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class FileServiceImpl {
+public class FileServiceImpl implements FileService {
 
     private final FileRepository fileRepository;
     private final LawyerRepository lawyerRepository;

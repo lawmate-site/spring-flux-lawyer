@@ -24,6 +24,7 @@ public class LawyerDetailDto {
     private String phoneCost;
     private String videoCost;
     private String university;
+    private String time;
     private String major;
     private Boolean premium;
     private LocalDateTime createdDate;
