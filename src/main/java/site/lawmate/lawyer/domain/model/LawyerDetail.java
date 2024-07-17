@@ -19,18 +19,18 @@ import java.time.LocalDateTime;
 public class LawyerDetail implements Persistable<String> {
     @Id
     String id;
-    String belong;
-    String address;
-    String addressDetail;
-    String belongPhone;
-    String law;
-    String visitCost;
-    String phoneCost;
-    String videoCost;
-    String university;
-    String major;
-    String time;
-    Boolean premium;
+    String belong; // 소속
+    String address; // 소속 주소
+    String addressDetail; // 상세주소
+    String belongPhone; // 소속 전화번호
+    String law; // 법
+    String visitCost; // 방문상담비용
+    String phoneCost; // 전화상담비용
+    String videoCost; // 영상상담비용
+    String university; // 대학
+    String major; // 학과
+    String time; // 시간
+    Boolean premium; // 프리미엄
 
     @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
