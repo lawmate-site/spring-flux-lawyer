@@ -24,13 +24,13 @@ public class LawyerDetail implements Persistable<String> {
     String addressDetail; // 상세주소
     String belongPhone; // 소속 전화번호
     String law; // 법
-    String visitCost; // 방문상담비용
-    String phoneCost; // 전화상담비용
-    String videoCost; // 영상상담비용
+    String visitCost; // 방문상담비용 default : 분당 3000
+    String phoneCost; // 전화상담비용 default : 분당 1500
+    String videoCost; // 영상상담비용 default : 분당 2000
     String university; // 대학
     String major; // 학과
     String time; // 시간
-    Boolean premium; // 프리미엄
+    Boolean premium; // 프리미엄 default : false.  true여야 프리미엄 계정
 
     @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

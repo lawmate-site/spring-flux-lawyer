@@ -15,4 +15,5 @@ public interface LawyerRepository extends ReactiveMongoRepository<Lawyer, String
     Mono<Lawyer> findByUsername(String username);
     Mono<Lawyer> findByDetail(LawyerDetail detail);
 
+    Flux<Lawyer> findByDetail();
 }

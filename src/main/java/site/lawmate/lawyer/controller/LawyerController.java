@@ -100,4 +100,15 @@ public class LawyerController {
         return ResponseEntity.ok(lawyerService.getLawyerDetailByUsername(username));
     }
 
+
+    // 담당 법률 변호사 찾기
+    // 형사법 공법 국제법 국제거래법 노동법 조세법 지적재산권법 민사법 경제법 환경법
+    @GetMapping("/law")
+    public ResponseEntity<Flux<Lawyer>> getLawyersByLaw(@RequestParam String law) {
+        return ResponseEntity.ok(lawyerService.getLawyersByLaw(law));
+    }
+
+
+
+
 }

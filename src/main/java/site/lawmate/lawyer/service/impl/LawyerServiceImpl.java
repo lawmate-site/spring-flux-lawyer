@@ -2,6 +2,9 @@ package site.lawmate.lawyer.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -20,6 +23,7 @@ public class LawyerServiceImpl implements LawyerService {
 
     private final LawyerRepository lawyerRepository;
     private final LawyerDetailRepository lawyerDetailRepository;
+    private final ReactiveMongoTemplate reactiveMongoTemplate;
 //    private final JwtProvider jwtProvider;
 //    private final TokenServiceImpl tokenService;
 
@@ -126,6 +130,13 @@ public class LawyerServiceImpl implements LawyerService {
         return lawyerRepository.findByUsername(username)
                 .map(Lawyer::getDetail);
     }
+
+    public Flux<Lawyer> getLawyersByLaw(String law) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("detail.law").is(law));
+        return reactiveMongoTemplate.find(query, Lawyer.class);
+    }
+
 
     // 시큐리티 로그인
 
