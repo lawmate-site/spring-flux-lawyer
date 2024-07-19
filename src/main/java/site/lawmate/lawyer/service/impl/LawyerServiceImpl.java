@@ -2,6 +2,7 @@ package site.lawmate.lawyer.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -134,6 +135,26 @@ public class LawyerServiceImpl implements LawyerService {
     public Flux<Lawyer> getLawyersByLaw(String law) {
         Query query = new Query();
         query.addCriteria(Criteria.where("detail.law").is(law));
+//        query.addCriteria(Criteria.where("detail.law").is(law).and("auth").is(true));
+        query.with(Sort.by(Sort.Order.desc("detail.premium")));
+
+        return reactiveMongoTemplate.find(query, Lawyer.class);
+    }
+
+    public Flux<Lawyer> getLawyersBySearch(String search){
+        Query query = new Query();
+        Criteria criteria = new Criteria();
+        String regex = ".*" + search + ".*";
+        criteria.orOperator(
+                Criteria.where("detail.law").regex(regex),
+                Criteria.where("name").regex(regex),
+                Criteria.where("detail.belong").regex(regex),
+                Criteria.where("detail.address").regex(regex)
+        );
+//        criteria.andOperator(Criteria.where("auth").is(true));
+        query.addCriteria(criteria);
+        query.with(Sort.by(Sort.Order.desc("detail.premium")));
+
         return reactiveMongoTemplate.find(query, Lawyer.class);
     }
 
