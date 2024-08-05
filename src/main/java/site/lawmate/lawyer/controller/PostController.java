@@ -30,8 +30,8 @@ import site.lawmate.lawyer.service.impl.PostServiceImpl;
 public class PostController {
     private final PostServiceImpl service;
 
-    @PostMapping(value = "/save/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Mono<Lawyer>> createPost(@PathVariable("id") String lawyerId,
+    @PostMapping(value = "/save/{lawyerId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Mono<Lawyer>> createPost(@PathVariable("lawyerId") String lawyerId,
                                                    @RequestPart("post") String postJson,
                                                    @RequestPart(value = "files", required = false) Flux<FilePart> fileParts) throws JsonProcessingException {
         Post post = new ObjectMapper().readValue(postJson, Post.class); // JSON 문자열을 Post 객체로 변환

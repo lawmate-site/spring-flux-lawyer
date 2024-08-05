@@ -13,6 +13,7 @@ import site.lawmate.lawyer.component.Messenger;
 import site.lawmate.lawyer.domain.dto.LawyerDto;
 import site.lawmate.lawyer.domain.model.LawyerDetail;
 import site.lawmate.lawyer.domain.model.Lawyer;
+import site.lawmate.lawyer.service.ConvertService;
 import site.lawmate.lawyer.service.impl.LawyerServiceImpl;
 
 @Slf4j
