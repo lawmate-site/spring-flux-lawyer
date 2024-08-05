@@ -21,8 +21,9 @@ public class File implements Persistable<String> {
     String id;
     String filename;
     String contentType;
-    byte[] data;
+    String url;   // S3 URL
     String lawyerId;
+    String postId;
     @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     LocalDateTime createdDate;

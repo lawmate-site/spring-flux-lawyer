@@ -27,12 +27,6 @@ public class LawyerController {
 
     private final LawyerServiceImpl lawyerService;
 
-    @PostMapping("/login")
-    public ResponseEntity<Mono<Messenger>> login(@RequestBody LawyerDto lawyerDto) {
-        log.info("::: 로그인 컨트롤러 파라미터 : {}",lawyerDto.toString());
-        return ResponseEntity.ok(lawyerService.login(lawyerDto));
-    }
-
     @GetMapping("/logout")
     public ResponseEntity<Mono<Messenger>> logout(@RequestHeader("Authorization") String accessToken) {
         log.info("1- 로그아웃 접속토큰 : {}", accessToken);
@@ -51,10 +45,6 @@ public class LawyerController {
         return ResponseEntity.ok(lawyerService.getAllLawyers());
     }
 
-    @GetMapping("/find/{email}")
-    public ResponseEntity<Mono<Lawyer>> getLawyerUsernameByEmail(@PathVariable("email") String email) {
-        return ResponseEntity.ok(lawyerService.getLawyerUsernameByEmail(email));
-    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Mono<Lawyer>> getLawyerById(@PathVariable("id") String id) {
@@ -90,14 +80,14 @@ public class LawyerController {
         return ResponseEntity.ok(lawyerService.deleteLawyer(id));
     }
 
-    @GetMapping("/username/{username}")
-    public ResponseEntity<Mono<Lawyer>> getLawyerByUsername(@PathVariable("username") String username) {
-        return ResponseEntity.ok(lawyerService.getLawyerByUsername(username));
+    @GetMapping("/email/{email}")
+    public ResponseEntity<Mono<Lawyer>> getLawyerByEmail(@PathVariable("email") String email) {
+        return ResponseEntity.ok(lawyerService.getLawyerByEmail(email));
     }
 
-    @GetMapping("/detail/username/{username}")
-    public ResponseEntity<Mono<LawyerDetail>> getLawyerDetailByUsername(@PathVariable("username") String username) {
-        return ResponseEntity.ok(lawyerService.getLawyerDetailByUsername(username));
+    @GetMapping("/detail/email/{email}")
+    public ResponseEntity<Mono<LawyerDetail>> getLawyerDetailByEmail(@PathVariable("email") String email) {
+        return ResponseEntity.ok(lawyerService.getLawyerDetailByEmail(email));
     }
 
 

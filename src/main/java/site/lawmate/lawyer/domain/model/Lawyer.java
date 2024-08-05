@@ -21,7 +21,6 @@ import java.time.LocalDateTime;
 public class Lawyer implements Persistable<String> {
     @Id
     String id;
-    String username;
     String email;
     String password;
     String name;

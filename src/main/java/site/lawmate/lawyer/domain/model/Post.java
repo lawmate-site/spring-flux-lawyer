@@ -9,6 +9,7 @@ import org.springframework.data.domain.Persistable;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Document(collection = "posts")
@@ -30,6 +31,7 @@ public class Post implements Persistable<String> {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     LocalDateTime modifiedDate;
 
+    List<String> fileUrls;
     @Override
     public boolean isNew() {
         return createdDate == null;

@@ -12,7 +12,7 @@ import site.lawmate.lawyer.domain.model.Lawyer;
 public interface LawyerRepository extends ReactiveMongoRepository<Lawyer, String> {
 
     Flux<Lawyer> findByName(String name);
-    Mono<Lawyer> findByUsername(String username);
+    Mono<Lawyer> findByEmail(String email);
     Mono<Lawyer> findByDetail(LawyerDetail detail);
 
     Flux<Lawyer> findByDetail();
