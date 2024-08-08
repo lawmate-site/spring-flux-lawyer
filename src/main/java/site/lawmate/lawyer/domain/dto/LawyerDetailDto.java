@@ -6,6 +6,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Component
@@ -19,7 +20,7 @@ public class LawyerDetailDto {
     private String address;
     private String addressDetail;
     private String belongPhone;
-    private String law;
+    private List<String> law;
     private String visitCost;
     private String phoneCost;
     private String videoCost;

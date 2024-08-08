@@ -47,16 +47,6 @@ dependencies {
 	// Spring Boot
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.springframework.boot:spring-boot-devtools'
-//	implementation 'org.springframework.boot:spring-boot-starter-web'
-
-	// Hateoas
-//	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
-
-	// AMQP
-//	implementation 'org.springframework.boot:spring-boot-starter-amqp'
-
-	// Security
-//	implementation 'org.springframework.boot:spring-boot-starter-security'
 
 	// Actuator
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -64,14 +54,6 @@ dependencies {
 	// MongoDB
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
 	implementation group: 'org.mongodb', name: 'mongodb-driver-sync'
-//	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc' // baseEntity 용
-	// implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
-
-	// Redis
-//	implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
-
-	// Kafka
-//	implementation 'org.springframework.kafka:spring-kafka'
 
 	// Lombok
 	compileOnly 'org.projectlombok:lombok'
@@ -81,7 +63,6 @@ dependencies {
 	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.12.5'
 	implementation group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.12.5'
 	implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.12.5'
-	// implementation 'com.auth0:java-jwt:4.4.0'
 
 	implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.2.0'
 
@@ -107,7 +88,6 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
-//	testImplementation 'org.springframework.kafka:spring-kafka-test'
 }
 dependencyManagement {
 	imports {
@@ -115,6 +95,6 @@ dependencyManagement {
 	}
 }
 
-// tasks.named('test') {
-// 	useJUnitPlatform()
-// }
+ tasks.named('test') {
+ 	useJUnitPlatform()
+ }

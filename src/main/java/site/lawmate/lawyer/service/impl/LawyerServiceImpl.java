@@ -17,6 +17,7 @@ import site.lawmate.lawyer.repository.LawyerDetailRepository;
 import site.lawmate.lawyer.repository.LawyerRepository;
 import site.lawmate.lawyer.service.LawyerService;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -83,6 +84,9 @@ public class LawyerServiceImpl implements LawyerService {
                     if (lawyer.getPhone() != null) {
                         optionalLawyer.setPhone(lawyer.getPhone());
                     }
+                    if (lawyer.getAuth() != null){
+                        optionalLawyer.setAuth(lawyer.getAuth());
+                    }
                     return lawyerRepository.save(optionalLawyer);
                 })
                 .switchIfEmpty(Mono.empty());
@@ -91,10 +95,7 @@ public class LawyerServiceImpl implements LawyerService {
     public Mono<Void> deleteLawyer(String id) {
         return lawyerRepository.deleteById(id);
     }
-    @Override
-    public Flux<Lawyer> findByName(String name) {
-        return lawyerRepository.findByName(name);
-    }
+
     @Override
     public Mono<Lawyer> updateLawyerDetail(String id, LawyerDetail detail) {
         return lawyerRepository.findById(id)
@@ -107,18 +108,9 @@ public class LawyerServiceImpl implements LawyerService {
                 });
     }
     @Override
-    public Mono<Lawyer> getLawyerByEmail(String username) {
-        return lawyerRepository.findByEmail(username);
-    }
-    @Override
-    public Mono<LawyerDetail> getLawyerDetailByEmail(String email) {
-        return lawyerRepository.findByEmail(email)
-                .map(Lawyer::getDetail);
-    }
-    @Override
-    public Flux<Lawyer> getLawyersByLaw(String law) {
+    public Flux<Lawyer> getLawyersByLaw(List<String> law) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("detail.law").is(law).and("auth").is(true));
+        query.addCriteria(Criteria.where("detail.law").in(law).and("auth").is(true));
         query.with(Sort.by(Sort.Order.desc("detail.premium")));
 
         return reactiveMongoTemplate.find(query, Lawyer.class);

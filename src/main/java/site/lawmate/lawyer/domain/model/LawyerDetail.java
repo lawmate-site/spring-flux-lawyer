@@ -9,6 +9,7 @@ import org.springframework.data.domain.Persistable;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Document(collection = "lawyer_details")
@@ -23,7 +24,7 @@ public class LawyerDetail implements Persistable<String> {
     String address; // 소속 주소
     String addressDetail; // 상세주소
     String belongPhone; // 소속 전화번호
-    String law; // 법
+    List<String> law; // 법
     String visitCost; // 방문상담비용 default : 분당 3000
     String phoneCost; // 전화상담비용 default : 분당 1500
     String videoCost; // 영상상담비용 default : 분당 2000
