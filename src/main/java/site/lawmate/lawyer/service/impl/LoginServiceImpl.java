@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
-import site.lawmate.lawyer.domain.dto.LoginDTO;
+import site.lawmate.lawyer.domain.dto.LoginDto;
 import site.lawmate.lawyer.domain.dto.PrincipalUserDetails;
 import site.lawmate.lawyer.domain.dto.UserModel;
 import site.lawmate.lawyer.domain.vo.ExceptionStatus;
@@ -21,7 +21,7 @@ import java.util.List;
 public class LoginServiceImpl implements LoginService{
     private final LawyerRepository lawyerRepository;
     @Override
-    public Mono<PrincipalUserDetails> login(LoginDTO lawyer) {
+    public Mono<PrincipalUserDetails> login(LoginDto lawyer) {
         log.info("Lawyer : AuthService {}", lawyer.getEmail());
         return lawyerRepository.findByEmail(lawyer.getEmail())
                 .switchIfEmpty(Mono.error(new LoginException(ExceptionStatus.UNAUTHORIZED, "존재하지 않는 사용자이거나 틀린 비밀번호 입니다.")))

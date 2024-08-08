@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
-import site.lawmate.lawyer.domain.dto.LoginDTO;
+import site.lawmate.lawyer.domain.dto.LoginDto;
 import site.lawmate.lawyer.domain.dto.PrincipalUserDetails;
 import site.lawmate.lawyer.service.LoginService;
 
@@ -19,7 +19,7 @@ public class AuthController {
     private final LoginService loginService;
 
     @PostMapping("/login")
-    public Mono<PrincipalUserDetails> login(@RequestBody LoginDTO lawyer) {
+    public Mono<PrincipalUserDetails> login(@RequestBody LoginDto lawyer) {
         log.info("admin: {}", lawyer.getEmail());
         return loginService.login(lawyer);
     }

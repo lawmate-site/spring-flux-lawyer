@@ -13,7 +13,4 @@ public interface LawyerRepository extends ReactiveMongoRepository<Lawyer, String
 
     Flux<Lawyer> findByName(String name);
     Mono<Lawyer> findByEmail(String email);
-    Mono<Lawyer> findByDetail(LawyerDetail detail);
-
-    Flux<Lawyer> findByDetail();
 }
