@@ -21,40 +21,28 @@ import site.lawmate.lawyer.service.impl.NoticeServiceImpl;
         @ApiResponse(responseCode = "404", description = "Customer not found")})
 @RequestMapping(path = "/notifications")
 public class NoticeController {
-    private final NoticeServiceImpl service;
 
-    @PostMapping("/save")
-    public ResponseEntity<Mono<Notice>> createNoticeModel(@RequestBody Notice notification) {
-        return ResponseEntity.ok(service.createNoticeModel(notification));
+    private final NoticeServiceImpl noticeService;
+
+    @GetMapping(value = "/{userId}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<String> streamNotifications(@PathVariable String userId) {
+        return noticeService.getNotifications(userId);
     }
 
-    @PostMapping("/respond/{id}")
-    public ResponseEntity<Mono<Notice>> respondToNoticeModel(@PathVariable("id") String id, @RequestParam("status") String status) {
-        return ResponseEntity.ok(service.updateNoticeModelStatus(id, status));
+    @PostMapping("/accept")
+    public void acceptNotification(@RequestParam String userId) {
+        String message = "상담 요청이 수락되었습니다.";
+        noticeService.sendNotification(userId,  message);
     }
 
-    @GetMapping(value = "/lawyer", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public ResponseEntity<Flux<Notice>> subscribeToLawyerNoticeModels() {
-        return ResponseEntity.ok(service.getLawyerNoticeModels());
+    @PostMapping("/reject")
+    public void rejectNotification(@RequestParam String userId) {
+        String message = "상담 요청이 거절되었습니다.";
+        noticeService.sendNotification(userId, message);
     }
 
-    @GetMapping(value = "/user/{userId}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public ResponseEntity<Flux<Notice>> subscribeToUserNoticeModels(@PathVariable("userId") String userId) {
-        return ResponseEntity.ok(service.getUserNoticeModels(userId));
-    }
-
-    @GetMapping("/lawyer/{lawyerId}")
-    public ResponseEntity<Flux<Notice>> getLawyerNoticesByLawyerId(@PathVariable("lawyerId") String lawyerId) {
-        return ResponseEntity.ok(service.getNoticesByLawyerId(lawyerId));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Mono<Void>> deleteNotice(@PathVariable("id") String id) {
-        return ResponseEntity.ok(service.deleteNotice(id));
-    }
-
-    @DeleteMapping("/delete")
-    public ResponseEntity<Mono<Void>> deleteAllNotices() {
-        return ResponseEntity.ok(service.deleteAllNotices());
+    @DeleteMapping("/{userId}")
+    public void removeUserSink(@PathVariable String userId) {
+        noticeService.removeUserSink(userId);
     }
 }
