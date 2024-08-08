@@ -17,6 +17,8 @@ import site.lawmate.lawyer.repository.LawyerDetailRepository;
 import site.lawmate.lawyer.repository.LawyerRepository;
 import site.lawmate.lawyer.service.LawyerService;
 
+import java.util.UUID;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -25,6 +27,7 @@ public class LawyerServiceImpl implements LawyerService {
     private final LawyerRepository lawyerRepository;
     private final LawyerDetailRepository lawyerDetailRepository;
     private final ReactiveMongoTemplate reactiveMongoTemplate;
+    private final EmailServiceImpl emailService;
 
     @Override
     public Flux<Lawyer> getAllLawyers() {
@@ -62,7 +65,10 @@ public class LawyerServiceImpl implements LawyerService {
     @Override
     public Mono<Lawyer> addLawyer(Lawyer lawyer) {
         return lawyerRepository.findByEmail(lawyer.getEmail())
-                .flatMap(existingLawyer -> Mono.error(new IllegalArgumentException("이미 가입된 이메일입니다.")));
+                .flatMap(existingLawyer -> {
+                    return Mono.<Lawyer>error(new IllegalArgumentException("이미 가입된 이메일입니다."));
+                })
+                .switchIfEmpty(lawyerRepository.save(lawyer));
     }
     @Override
     public Mono<Lawyer> updateLawyer(String id, Lawyer lawyer) {
@@ -133,5 +139,16 @@ public class LawyerServiceImpl implements LawyerService {
         query.with(Sort.by(Sort.Order.desc("detail.premium")));
 
         return reactiveMongoTemplate.find(query, Lawyer.class);
+    }
+
+    @Override
+    public Mono<Void> resetPassword(String lawyerNo) {
+        return lawyerRepository.findByLawyerNo(lawyerNo)
+                .flatMap(lawyer -> {
+                    String newPassword = UUID.randomUUID().toString().substring(0, 8);  // 새로운 비밀번호 생성
+                    lawyer.setPassword(newPassword);  // 비밀번호 업데이트
+                    return lawyerRepository.save(lawyer)
+                            .then(emailService.sendResetPasswordEmail(lawyer.getEmail(), newPassword));
+                });
     }
 }

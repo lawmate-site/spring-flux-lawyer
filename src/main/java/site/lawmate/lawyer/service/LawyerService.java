@@ -20,4 +20,5 @@ public interface LawyerService {
     Mono<LawyerDetail> getLawyerDetailByEmail(String email);
     Flux<Lawyer> getLawyersByLaw(String law);
     Flux<Lawyer> getLawyersBySearch(String search);
+    Mono<Void> resetPassword(String lawyerNo);
 }
