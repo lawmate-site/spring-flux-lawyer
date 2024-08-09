@@ -100,6 +100,4 @@ public class LawyerController {
     public ResponseEntity<Mono<Void>> resetPassword(@RequestParam String lawyerNo) {
         return ResponseEntity.ok(lawyerService.resetPassword(lawyerNo));
     }
-
-
 }

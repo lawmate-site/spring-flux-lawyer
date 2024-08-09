@@ -54,4 +54,10 @@ public class ReplyController {
     public ResponseEntity<Mono<Void>> deleteAllReplies() {
         return ResponseEntity.ok(service.deleteAllReplies());
     }
+
+    @GetMapping("/article/{articleId}")
+    public ResponseEntity<Mono<Reply>> findReplyByArticleId(@PathVariable("articleId") String articleId) {
+        return ResponseEntity.ok(service.getReplyByArticleId(articleId));
+    }
+
 }
