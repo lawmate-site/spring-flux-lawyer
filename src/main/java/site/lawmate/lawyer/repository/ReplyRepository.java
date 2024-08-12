@@ -11,5 +11,5 @@ public interface ReplyRepository extends ReactiveMongoRepository<Reply, String>{
 
     Flux<Reply> findAllByLawyerId(String lawyerId);
 
-    Mono<Reply> findByArticleId(String articleId);
+    Flux<Reply> findAllByArticleId(String articleId);
 }

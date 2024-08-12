@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -55,8 +56,11 @@ public class PostController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Flux<Post>> getAllPosts() {
-        return ResponseEntity.ok(service.getAllPosts());
+    public ResponseEntity<Flux<Post>> getAllPosts(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size
+    ) {
+        return ResponseEntity.ok(service.getAllPosts(PageRequest.of(page, size)));
     }
 
     @DeleteMapping("/{id}")
@@ -79,5 +83,10 @@ public class PostController {
                             .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + url.substring(url.lastIndexOf("/") + 1))
                             .body(resource);
                 });
+    }
+
+    @GetMapping("/post/{postId}")
+    public ResponseEntity<Mono<Post>> getPostById(@PathVariable("postId") String postId) {
+        return ResponseEntity.ok(service.getPostById(postId));
     }
 }

@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: lawyer-service
+  profiles:
+    active: local
+  config:
+    import: optional:configserver:http://175.45.193.58:8888

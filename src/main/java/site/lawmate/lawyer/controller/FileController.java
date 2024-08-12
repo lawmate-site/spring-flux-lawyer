@@ -15,6 +15,8 @@ import reactor.core.publisher.Mono;
 import site.lawmate.lawyer.domain.model.File;
 import site.lawmate.lawyer.service.impl.FileServiceImpl;
 
+import java.util.List;
+
 @Slf4j
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -64,5 +66,15 @@ public class FileController {
                 .flatMap(file -> fileService.deleteFileByUrl(file.getUrl())
                         .then(fileService.deleteFileById(file.getId())))
                 .then(Mono.just(ResponseEntity.noContent().<Void>build()));
+    }
+
+    @GetMapping("/file/{id}") // 단일파일
+    public ResponseEntity<Mono<File>> getFileById(@PathVariable("id") String id) {
+        return ResponseEntity.ok(fileService.getFileById(id));
+    }
+
+    @GetMapping("/files") // 파일 여러개
+    public ResponseEntity<Flux<File>> getFilesByIds(@RequestParam("ids") List<String> ids) {
+        return ResponseEntity.ok(fileService.getFilesByIds(ids));
     }
 }

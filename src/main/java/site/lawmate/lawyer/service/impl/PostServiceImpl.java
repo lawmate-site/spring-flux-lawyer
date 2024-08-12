@@ -6,6 +6,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -95,9 +96,11 @@ public class PostServiceImpl implements PostService {
                                     }));
                 });
     }
+
+
     @Override
-    public Flux<Post> getAllPosts() {
-        return postRepository.findAll();
+    public Flux<Post> getAllPosts(PageRequest pageRequest) {
+        return postRepository.findAllBy(pageRequest);
     }
     @Override
     public Mono<Void> deletePost(String id) {
@@ -129,5 +132,10 @@ public class PostServiceImpl implements PostService {
             com.amazonaws.services.s3.model.S3Object s3Object = s3Client.getObject(bucketName, url.substring(url.lastIndexOf("/") + 1));
             return s3Object.getObjectContent().readAllBytes();
         });
+    }
+
+    @Override
+    public Mono<Post> getPostById(String postId) {
+        return postRepository.findById(postId);
     }
 }

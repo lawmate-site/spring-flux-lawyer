@@ -1,5 +1,6 @@
 package site.lawmate.lawyer.service;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.codec.multipart.FilePart;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -12,11 +13,10 @@ public interface PostService {
     Flux<File> saveFilesForPost(String lawyerId, Flux<FilePart> files, String postId);
     Flux<Post> getPostsByLawyerId(String lawyerId);
     Mono<Post> updatePost(String postId, Post updatedPost, Flux<FilePart> fileParts);
-    Flux<Post> getAllPosts();
     Mono<Void> deletePost(String id);
     Mono<Void> deleteAllPosts();
     Mono<Void> deleteFileByUrl(String url);
     Mono<byte[]> downloadFile(String url);
-
-
+    Flux<Post> getAllPosts(PageRequest pageRequest);
+    Mono<Post> getPostById(String postId);
 }
