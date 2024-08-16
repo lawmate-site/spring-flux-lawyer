@@ -27,6 +27,7 @@ public class LawyerDetailDto {
     private String university;
     private String time;
     private String major;
+    private String photo;
     private Boolean premium;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
